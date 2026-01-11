@@ -1,6 +1,6 @@
 export interface KosFoto {
   id?: number;
   kos_id: number;
-  fotoUrl: string;
+  foto_Url: string;
   is_thumbnail: boolean;
 }
