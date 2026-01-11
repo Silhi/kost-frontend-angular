@@ -1,1 +1,109 @@
-<p>kos-list works!</p>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Daftar Kos Tersedia</h2>
+    <a routerLink="/kos/new" class="btn btn-primary"> + Tambah Data Kos </a>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Cari nama kos, alamat, atau tipe..."
+        [(ngModel)]="keyword"
+        (input)="onSearch()"
+      />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let item of filteredKos">
+      <div class="card h-100 shadow-sm">
+        <img
+          [src]="
+            item.fotos && item.fotos.length > 0
+              ? 'http://localhost:8081' + item.fotos[0].fotoUrl
+              : 'https://via.placeholder.com/300x200?text=No+Image'
+          "
+          class="card-img-top"
+          alt="Foto Kos"
+          style="height: 200px; object-fit: cover"
+        />
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5 class="card-title fw-bold">{{ item.nama_kos }}</h5>
+            <span
+              class="badge"
+              [ngClass]="
+                item.status === 'TERSEDIA' ? 'bg-success' : 'bg-danger'
+              "
+            >
+              {{ item.status }}
+            </span>
+          </div>
+
+          <h6 class="text-primary mt-2">
+            Rp {{ item.harga | number }} / bulan
+          </h6>
+
+          <p class="card-text text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill"></i> {{ item.alamat }}
+          </p>
+
+          <span class="badge bg-secondary mb-3">{{ item.tipe }}</span>
+
+          <div class="mb-3">
+            <p
+              class="card-text text-secondary small mb-1"
+              [class.text-truncate]="!item.isExpanded"
+              style="cursor: pointer"
+              (click)="item.isExpanded = !item.isExpanded"
+            >
+              {{ item.deskripsi }}
+            </p>
+
+            <small
+              class="text-primary fw-bold"
+              style="cursor: pointer; font-size: 0.75rem"
+              (click)="item.isExpanded = !item.isExpanded"
+            >
+              {{ item.isExpanded ? "Show Less" : "Show more" }}
+            </small>
+          </div>
+        </div>
+
+        <div
+          class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end gap-2"
+        >
+          <a
+            [routerLink]="['/kos', item.id]"
+            class="btn btn-light text-info rounded-circle action-btn shadow-sm"
+            title="Lihat Detail"
+          >
+            <i class="bi bi-eye-fill fs-5"></i>
+          </a>
+
+          <a
+            [routerLink]="['/kos', item.id, 'edit']"
+            class="btn btn-light text-warning rounded-circle action-btn shadow-sm"
+            title="Edit Data"
+          >
+            <i class="bi bi-pencil-fill fs-5"></i>
+          </a>
+
+          <button
+            class="btn btn-light text-danger rounded-circle action-btn shadow-sm"
+            (click)="onDelete(item.id)"
+            title="Hapus Data"
+          >
+            <i class="bi bi-trash-fill fs-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filteredKos.length === 0" class="col-12 text-center py-5">
+      <p class="text-muted">Data kos tidak ditemukan.</p>
+    </div>
+  </div>
+</div>
