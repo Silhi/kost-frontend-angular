@@ -5,7 +5,6 @@ import { Kos } from '../models/kos.model';
 
 @Injectable({ providedIn: 'root' })
 export class KosService {
-
   private api = '/api/kost';
 
   constructor(private http: HttpClient) {}
@@ -18,6 +17,7 @@ export class KosService {
   }
 
   // DETAIL (EDIT)
+
   getById(id: number) {
     return this.http.get<Kos>(`${this.api}/${id}`);
   }
@@ -35,5 +35,9 @@ export class KosService {
   // UPDATE by id (gunakan relative path sehingga proxy bekerja)
   update(id: number, data: Kos) {
     return this.http.put(`${this.api}/${id}`, data);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.api}/${id}`);
   }
 }
