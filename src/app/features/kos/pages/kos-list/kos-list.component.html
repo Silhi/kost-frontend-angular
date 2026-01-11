@@ -20,11 +20,8 @@
     <div class="col-md-4 mb-4" *ngFor="let item of filteredKos">
       <div class="card h-100 shadow-sm">
         <img
-          [src]="
-            item.fotos && item.fotos.length > 0
-              ? 'http://localhost:8081' + item.fotos[0].fotoUrl
-              : 'https://via.placeholder.com/300x200?text=No+Image'
-          "
+          [src]="getImageUrl(item)"
+          (error)="onImgError($event)"
           class="card-img-top"
           alt="Foto Kos"
           style="height: 200px; object-fit: cover"
@@ -75,21 +72,32 @@
         <div
           class="card-footer bg-white border-0 p-4 pt-0 d-flex justify-content-end gap-2"
         >
-          <a
-            [routerLink]="['/kos', item.id]"
-            class="btn btn-light text-info rounded-circle action-btn shadow-sm"
-            title="Lihat Detail"
-          >
-            <i class="bi bi-eye-fill fs-5"></i>
-          </a>
+          <ng-container *ngIf="item.id; else noIdButtons">
+            <a
+              [routerLink]="['/kos', item.id]"
+              class="btn btn-light text-info rounded-circle action-btn shadow-sm"
+              title="Lihat Detail"
+            >
+              <i class="bi bi-eye-fill fs-5"></i>
+            </a>
 
-          <a
-            [routerLink]="['/kos', item.id, 'edit']"
-            class="btn btn-light text-warning rounded-circle action-btn shadow-sm"
-            title="Edit Data"
-          >
-            <i class="bi bi-pencil-fill fs-5"></i>
-          </a>
+            <a
+              [routerLink]="['/kos', item.id, 'edit']"
+              class="btn btn-light text-warning rounded-circle action-btn shadow-sm"
+              title="Edit Data"
+            >
+              <i class="bi bi-pencil-fill fs-5"></i>
+            </a>
+          </ng-container>
+
+          <ng-template #noIdButtons>
+            <button class="btn btn-light text-secondary rounded-circle action-btn shadow-sm" title="ID tidak tersedia" disabled>
+              <i class="bi bi-eye-fill fs-5"></i>
+            </button>
+            <button class="btn btn-light text-secondary rounded-circle action-btn shadow-sm" title="ID tidak tersedia" disabled>
+              <i class="bi bi-pencil-fill fs-5"></i>
+            </button>
+          </ng-template>
 
           <button
             class="btn btn-light text-danger rounded-circle action-btn shadow-sm"
