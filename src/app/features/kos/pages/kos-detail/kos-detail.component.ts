@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { KosService } from '../../services/kos.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-kos-detail',
@@ -15,32 +16,39 @@ export class KosDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private kosService: KosService
   ) { }
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     console.log('ID DARI ROUTE:', idParam);
 
-    const id = Number(idParam);
-
-    if (!id) {
+    if (idParam === 'undefined' || idParam === 'null' || idParam === '' || idParam == null) {
       alert('ID kos tidak valid');
+      this.router.navigate(['/kos']);
       return;
     }
 
-    this.http.get<any>(`http://localhost:8081/api/kost/${id}`)
-      .subscribe({
-        next: res => {
-          console.log('DATA KOS:', res);
-          this.kos = res;
-          this.loading = false;
-        },
-        error: err => {
-          console.error('ERROR API:', err);
-          this.loading = false;
-        }
-      });
+    const id = Number(idParam);
+
+    if (!Number.isFinite(id) || id <= 0) {
+      alert('ID kos tidak valid');
+      this.router.navigate(['/kos']);
+      return;
+    }
+
+    this.kosService.getById(id).subscribe({
+      next: res => {
+        console.log('DATA KOS:', res);
+        this.kos = res;
+        this.fotos = (res?.fotos || []).map((f: any) => ({ url: this.buildFotoUrl(f) }));
+        this.loading = false;
+      },
+      error: err => {
+        console.error('ERROR API:', err);
+        this.loading = false;
+      }
+    });
   }
 
 
@@ -49,6 +57,30 @@ export class KosDetailComponent implements OnInit {
   }
 
   editKos() {
-    this.router.navigate(['/kos', this.kos.id, 'edit']);
+    const id = this.kos?.id ?? this.extractIdFromSelf(this.kos);
+    if (!id) {
+      alert('ID tidak tersedia untuk edit');
+      return;
+    }
+    this.router.navigate(['/kos', id, 'edit']);
+  }
+
+  private buildFotoUrl(foto: any): string {
+    const url = foto?.fotoUrl || foto?.foto_Url || foto?.fotoUrlPath || '';
+    if (!url) return 'assets/images/placeholder.svg';
+    return url.startsWith('http') ? url : `${environment.apiUrl}${url}`;
+  }
+
+  private extractIdFromSelf(item: any): number | null {
+    const href = item?._links?.self?.href;
+    if (!href) return null;
+    const parts = href.split('/');
+    const last = parts[parts.length - 1];
+    const num = Number(last);
+    return Number.isFinite(num) ? num : null;
+  }
+
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/placeholder.svg';
   }
 }

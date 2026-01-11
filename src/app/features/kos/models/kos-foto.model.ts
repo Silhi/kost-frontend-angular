@@ -1,6 +1,9 @@
 export interface KosFoto {
   id?: number;
   kos_id: number;
-  foto_Url: string;
-  is_thumbnail: boolean;
+  // backend may return either `foto_Url` or `fotoUrl` — accept both for TypeScript
+  foto_Url?: string;
+  fotoUrl?: string;
+  fotoUrlPath?: string;
+  is_thumbnail?: boolean;
 }

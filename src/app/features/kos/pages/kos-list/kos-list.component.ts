@@ -56,7 +56,7 @@ export class KosListComponent implements OnInit {
       return 'assets/images/kost.jpg';
     }
 
-    const url = foto.fotoUrl || foto.fotoUrlPath || '';
+    const url = foto.fotoUrl || foto.foto_Url || foto.fotoUrlPath || '';
     if (!url) return 'assets/images/kost.jpg';
 
     // Jika sudah absolute, gunakan apa adanya; kalau relatif, sambungkan ke environment.apiUrl

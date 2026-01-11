@@ -7,6 +7,7 @@ export interface Kos {
   tipe: string;
   deskripsi: string;
   status: string;
+  fotos?: KosFoto[];
   _links?: {
     self: {
       href: string;
