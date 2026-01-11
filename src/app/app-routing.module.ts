@@ -6,7 +6,7 @@ import { KosDetailComponent } from './features/kos/pages/kos-detail/kos-detail.c
 
 const routes: Routes = [
   { path: '', redirectTo: 'kos', pathMatch: 'full' },
-  { path: 'kos', component: KosListComponent },
+  { path: 'kos', component: KosListComponent, pathMatch: 'full' },
   { path: 'kos/new', component: KosFormComponent },
   { path: 'kos/:id', component: KosDetailComponent },
   { path: 'kos/:id/edit', component: KosFormComponent }

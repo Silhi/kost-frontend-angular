@@ -1,1 +1,77 @@
-<p>kos-form works!</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <div class="card border-0 shadow-lg rounded-4">
+        
+        <div class="card-header bg-primary bg-gradient text-white p-4 border-0">
+          <h4 class="mb-0 fw-bold">
+            <i class="bi bi-house-door-fill me-2"></i>
+            {{ isEdit ? 'Update Informasi Kost' : 'Tambah Unit Kost Baru' }}
+          </h4>
+          <small class="opacity-75">Pastikan data yang dimasukkan sudah sesuai dengan kondisi fisik.</small>
+        </div>
+
+        <div class="card-body p-4">
+          <form [formGroup]="form" (ngSubmit)="submit()" class="needs-validation">
+            
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nama_kos" formControlName="nama_kos" placeholder="Nama Kost">
+              <label for="nama_kos">Nama Kost</label>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-7">
+                <label class="form-label small fw-bold text-muted">Harga Sewa /Bulan</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">Rp</span>
+                  <input type="number" class="form-control border-start-0" formControlName="harga" placeholder="0">
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <label class="form-label small fw-bold text-muted">Tipe Kost</label>
+                <select class="form-select" formControlName="tipe">
+                  <option value="">Pilih...</option>
+                  <option value="PUTRA">Putra</option>
+                  <option value="PUTRI">Putri</option>
+                  <option value="CAMPUR">Campur</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">Alamat Lengkap</label>
+              <textarea class="form-control" formControlName="alamat" rows="2" placeholder="Jl. Raya No..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">Status Ketersediaan</label>
+              <select class="form-select" formControlName="status">
+                <option value="TERSEDIA">🟢 Tersedia</option>
+                <option value="PENUH">🔴 Penuh</option>
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label small fw-bold text-muted">Deskripsi Fasilitas</label>
+              <textarea class="form-control" formControlName="deskripsi" rows="4" placeholder="Ceritakan kelebihan kost Anda..."></textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg rounded-3 fw-bold" [disabled]="!form.valid">
+                <span *ngIf="isEdit">Simpan Perubahan</span>
+                <span *ngIf="!isEdit">Publish Kost</span>
+              </button>
+              <button routerLink="/kos" type="button" class="btn btn-link btn-sm text-decoration-none text-muted">
+                Batal dan Kembali
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

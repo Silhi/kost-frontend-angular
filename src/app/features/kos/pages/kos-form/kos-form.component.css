@@ -1,0 +1,23 @@
+/* Memberikan efek halus saat input di-fokuskan */
+.form-control:focus, .form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Membuat card terlihat melayang */
+.card {
+  transition: transform 0.3s ease;
+}
+
+/* Mengatur style floating label agar lebih cantik */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* Tombol loading atau disabled state */
+button:disabled {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
