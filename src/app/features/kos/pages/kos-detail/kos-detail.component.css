@@ -1,0 +1,9 @@
+.kos-img {
+    height: 160px;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.kos-img:hover {
+    transform: scale(1.05);
+}

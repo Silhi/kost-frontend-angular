@@ -1,3 +1,5 @@
+import { KosFoto } from './kos-foto.model';
+
 export interface Kos {
   nama_kos: string;
   alamat: string;
