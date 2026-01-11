@@ -1,3 +1,5 @@
+import { KosFoto } from './kos-foto.model';
+
 export interface Kos {
   id?: number;
   nama_kos: string;
@@ -6,4 +8,5 @@ export interface Kos {
   tipe: 'PUTRA' | 'PUTRI' | 'CAMPUR';
   deskripsi: string;
   status: 'TERSEDIA' | 'PENUH';
+  fotos?: KosFoto[];
 }
